@@ -42,7 +42,7 @@ const SignUp = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/allholdings");
+          navigate("/dashboard");
         }, 1000);
       } else {
         handleError(message);

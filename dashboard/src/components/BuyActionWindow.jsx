@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import axios from "axios";
@@ -11,20 +11,30 @@ const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
-  console.log("in buy action window")
-  const handleBuyClick = () => {
-    axios.post("http://localhost:3002/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
+  //conusuming the general context here
+  const { closeBuyWindow } = useContext(GeneralContext);
 
-    GeneralContext.closeBuyWindow();
+  const handleBuyClick = () => {
+    console.log(uid);
+    console.log(stockQuantity);
+    console.log(stockPrice);
+    console.log("BUY");
+    try {
+      axios.post("http://localhost:3002/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price: stockPrice,
+        mode: "BUY",
+      });
+
+      closeBuyWindow();
+    } catch (err) {
+      console.err(err);
+    }
   };
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    closeBuyWindow();
   };
 
   return (
